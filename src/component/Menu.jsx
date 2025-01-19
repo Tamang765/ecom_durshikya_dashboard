@@ -83,12 +83,14 @@ const Menu = () => {
               </div>
               <>
                 {selectedMenu === item?.name && (
-                  <div>
+                  <div className="pl-6 pt-2">
                     {item?.subMenu?.map((subItem, index) => {
                       return (
-                        <div key={subItem?.name}>
-                          <Link href={subItem?.link}>{subItem?.name}</Link>
-                        </div>
+                        <ul className=" list-disc" key={subItem?.name}>
+                          <li>
+                            <Link to={subItem?.link}>{subItem?.name}</Link>
+                          </li>
+                        </ul>
                       );
                     })}
                   </div>
