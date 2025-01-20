@@ -9,7 +9,7 @@ const Layout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const user = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.singleUser);
 
   useEffect(() => {
     if (token) {
@@ -19,13 +19,12 @@ const Layout = () => {
     }
   }, [token, dispatch]);
 
-  console.log(token);
-
-
-  
-  if (!token) {
-    return navigate("/login");
-  }
+  //check auth user
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="flex  gap-2">

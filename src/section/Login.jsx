@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUser } from "../redux/slice/authSlice";
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.singleUser);
+
   const [loginData, setLogindata] = useState({
     email: "",
     password: "",
@@ -22,6 +24,12 @@ const Login = () => {
       toast.error(error.message);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   return (
     <form

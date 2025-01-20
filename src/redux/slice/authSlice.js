@@ -5,7 +5,8 @@ import { axiosInstance as axios, setToken } from "../../utils/axios";
 const initialState = {
   isLoading: false,
   isError: false,
-  user: null,
+  users: [],
+  singleUser: null,
 };
 
 export const loginUser = createAsyncThunk("auth/login", async (data) => {
@@ -31,6 +32,7 @@ export const loginUser = createAsyncThunk("auth/login", async (data) => {
 export const getUser = createAsyncThunk("auth/getme", async (data) => {
   try {
     const response = await axios.get(`user/getme`, data);
+    console.log(response.data);
     return response.data.data;
   } catch (error) {
     toast.error(error.message || "Something went wrong");
@@ -61,7 +63,8 @@ const authSlice = createSlice({
     });
     builder.addCase(getUser.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.user = action.payload;
+      console.log(action.payload);
+      state.singleUser = action.payload;
     });
     builder.addCase(getUser.rejected, (state) => {
       state.isLoading = false;
