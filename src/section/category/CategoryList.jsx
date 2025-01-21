@@ -33,7 +33,7 @@ const CategoryList = () => {
   };
 
   return (
-    <div>
+    <div className=" max-w-4xl border-2 shadow-md mx-auto mt-10 p-5">
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

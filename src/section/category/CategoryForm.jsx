@@ -96,10 +96,9 @@ const CategoryForm = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const file = e.target.files[0];
       const formData = new FormData();
-      if (file) {
-        formData.append("image", file);
+      if (categoryItem.image instanceof File) {
+        formData.append("image", categoryItem.image);
       } else {
         formData.append("image", categoryItem.image);
       }
@@ -112,7 +111,9 @@ const CategoryForm = () => {
 
   return (
     <div>
-      <h1 className=" text-2xl font-semibold text-center p-4">Category Form</h1>
+      <h1 className=" text-2xl font-semibold text-center p-4">
+        {id ? "Edit Category" : "Create Category"}
+      </h1>
       <hr />
       <form className=" p-8" onSubmit={id ? handleEditSubmit : handleSubmit}>
         <Stack
@@ -143,7 +144,7 @@ const CategoryForm = () => {
             className="bg-black text-white p-3"
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : "Submit"}
+            {isLoading ? "Loading..." : id ? "Update" : "Submit"}
           </button>
         </Stack>
       </form>

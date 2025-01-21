@@ -7,6 +7,7 @@ import Home from "./pages/home";
 import Login from "./section/Login";
 import CategoryForm from "./section/category/CategoryForm";
 import CategoryList from "./section/category/CategoryList";
+import ProductForm from "./section/product/ProductForm";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />} />
           <Route path="/category/create" element={<CategoryForm />} />
+          <Route path="/product/create" element={<ProductForm />} />
+
           <Route path="/category/edit/:id" element={<CategoryForm />} />
 
           <Route path="/category/list" element={<CategoryList />} />

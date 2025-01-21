@@ -84,7 +84,7 @@ const categorySlice = createSlice({
     });
     builder.addCase(postCategory.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.category = action.payload;
+      // state.category = action.payload;
     });
     builder.addCase(postCategory.rejected, (state) => {
       state.isLoading = false;
