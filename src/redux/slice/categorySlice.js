@@ -12,7 +12,6 @@ const initialState = {
 export const getCategory = createAsyncThunk("category/get", async (data) => {
   try {
     const response = await axios.get(`category`, data);
-    console.log(response.data);
     return response.data.data;
   } catch (error) {
     toast.error(error.message || "Something went wrong");
@@ -24,7 +23,6 @@ export const getSingleCategory = createAsyncThunk(
   async (id) => {
     try {
       const response = await axios.get(`category/${id}`);
-      console.log(response.data);
       return response.data.data;
     } catch (error) {
       toast.error(error.message || "Something went wrong");
@@ -35,7 +33,6 @@ export const getSingleCategory = createAsyncThunk(
 export const postCategory = createAsyncThunk("category/post", async (data) => {
   try {
     const response = await axios.post(`category`, data);
-    console.log(response.data);
     return response.data.data;
   } catch (error) {
     toast.error(error.message || "Something went wrong");

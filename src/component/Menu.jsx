@@ -56,8 +56,6 @@ const Menu = () => {
 
   const [selectedMenu, SetSelectedMenu] = useState(null);
 
-  console.log(selectedMenu);
-
   return (
     <div>
       <h1 className="text-xl font-bold">Ecommerce Dashboard</h1>
