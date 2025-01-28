@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getCategory } from "../../redux/slice/categorySlice";
 import {
   deleteProductImage,
   getSingleProduct,
   postProduct,
+  resetProduct,
+  updateProduct,
 } from "../../redux/slice/productSlice";
 const ProductForm = () => {
   const id = useLocation().pathname.split("/")[3];
-  console.log(id);
+const navigate = useNavigate();
 
   const [productFields, setProductFields] = useState({
     name: "",
@@ -23,7 +25,7 @@ const ProductForm = () => {
     color: [],
   });
 
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -43,8 +45,10 @@ const ProductForm = () => {
 
   const handleArrayChange = (e) => {
     const selectedData = e.target.selectedOptions;
+
     //copy the selected data into an array
     const sizeArray = Array.from(selectedData).map((item) => item.value);
+    console.log(sizeArray)
     setProductFields({ ...productFields, size: sizeArray });
   };
 
@@ -64,17 +68,19 @@ const ProductForm = () => {
 
       if (files) {
         setProductFields({ ...productFields, images: files });
-
         const previewData = Array.from(files).map((file) =>
           URL.createObjectURL(file)
         );
 
-        setPreview((prev) => [...prev, ...previewData]);
+        setPreview((prev) => (prev?[...prev, ...previewData]: previewData) );
       }
     } catch (error) {
       console.log(error.message);
     }
   };
+
+
+  console.log(preview)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,7 +100,15 @@ const ProductForm = () => {
 
     //image
     for (let i = 0; i < productFields.images.length; i++) {
+      if(productFields.images instanceof FileList){
       formData.append("images", productFields.images[i]);
+    }
+  }
+
+    if(id){
+      await dispatch(updateProduct({id, formData}));
+
+      navigate("/product/list")
     }
 
     await dispatch(postProduct(formData));
@@ -118,6 +132,23 @@ const ProductForm = () => {
   };
 
   useEffect(() => {
+        //set data to initial state in redux
+        dispatch(resetProduct());
+
+        //set data to initial state
+        //used same form so, need to clear out edit data
+        setProductFields({
+          name: "",
+          category: "",
+          price: "",
+          discount: "",
+          description: "",
+          images: [],
+          quantity: "",
+          size: [],
+          color: [],
+        });
+        setPreview(null);
     if (id) {
       dispatch(getSingleProduct(id));
     }
@@ -142,18 +173,20 @@ const ProductForm = () => {
   console.log(productFields, preview);
 
   function deleteImage(id, public_id) {
+
     dispatch(deleteProductImage({ id, imageId: public_id }));
+
   }
 
   return (
     <div>
-      <h1 className=" text-2xl font-semibold text-center p-4">
+      <h1 className="p-4 text-2xl font-semibold text-center ">
         {id ? "Edit Product" : "Create Product"}
       </h1>
 
       <form
-        className="max-w-4xl border-2 shadow-md mx-auto mt-10 p-5 flex flex-col gap-4"
-        onSubmit={handleSubmit}
+        className="flex flex-col max-w-4xl gap-4 p-5 mx-auto mt-10 border-2 shadow-md"
+        onSubmit={ handleSubmit}
       >
         <label htmlFor="name">Name</label>
         <input
@@ -166,7 +199,7 @@ const ProductForm = () => {
         <select
           name="category"
           id="category"
-          className="border-2 p-2"
+          className="p-2 border-2"
           value={productFields.category}
           onChange={handleChange}
         >
@@ -208,9 +241,9 @@ const ProductForm = () => {
         <select
           name="size"
           id="size"
-          className="border-2 p-2 "
+          className="p-2 border-2 "
           multiple
-          defaultValue={productFields.size}
+          value={productFields.size}
           // value={productFields.size}
           onChange={handleArrayChange}
         >
@@ -224,9 +257,9 @@ const ProductForm = () => {
         <select
           name="color"
           id="color"
-          className="border-2 p-2 "
+          className="p-2 border-2 "
           multiple
-          defaultValue={productFields.color}
+          value={productFields.color}
           onChange={handleColorChange}
         >
           {["red", "blue", "black", "white", "purple"]?.map((item) => (
@@ -251,7 +284,7 @@ const ProductForm = () => {
                   key={item}
                   src={item?.url || item}
                   alt="preview"
-                  className="w-full aspect-square object-cover"
+                  className="object-cover w-full aspect-square"
                 />
                 <button
                   type="button"
@@ -263,7 +296,7 @@ const ProductForm = () => {
             ))}
           </div>
         )}
-        <button>Submit</button>
+        <button className="p-4 text-white bg-primary">Submit</button>
       </form>
     </div>
   );

@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
+import BasicMenu from "../component/DropDownMenu";
 import Sidebar from "../component/sidebar";
 import { getUser } from "../redux/slice/authSlice";
 import { setToken } from "../utils/axios";
+
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -14,7 +16,6 @@ const Layout = () => {
   useEffect(() => {
     if (token) {
       setToken(token);
-
       dispatch(getUser());
     }
   }, [token, dispatch]);
@@ -27,9 +28,12 @@ const Layout = () => {
   }, [user, navigate]);
 
   return (
-    <div className="flex  gap-2">
+    <div className="flex gap-2">
       <Sidebar />
       <div className="w-[90%]">
+        <div className="flex justify-end p-2">
+      <BasicMenu/>
+        </div>
         <Outlet />
       </div>
     </div>

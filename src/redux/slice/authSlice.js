@@ -28,6 +28,16 @@ export const loginUser = createAsyncThunk("auth/login", async (data) => {
   }
 });
 
+export const getAllUsers = createAsyncThunk("auth/getall", async () => {
+  try {
+    const response = await axios.get(`user`);
+    return response.data.data;
+  } catch (error) {
+    toast.error(error.message || "Something went wrong");
+  }
+});
+
+
 export const getUser = createAsyncThunk("auth/getme", async (data) => {
   try {
     const response = await axios.get(`user/getme`, data);
@@ -64,6 +74,19 @@ const authSlice = createSlice({
       state.singleUser = action.payload;
     });
     builder.addCase(getUser.rejected, (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    });
+
+    builder.addCase(getAllUsers.pending, (state) => {
+      state.isLoading = true;
+      state.isError = false;
+    });
+    builder.addCase(getAllUsers.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.users = action.payload;
+    });
+    builder.addCase(getAllUsers.rejected, (state) => {
       state.isLoading = false;
       state.isError = true;
     });

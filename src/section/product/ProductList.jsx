@@ -43,7 +43,7 @@ const ProductList = () => {
   ];
 
   return (
-    <div className=" border-2 shadow-md mx-auto mt-10 p-5">
+    <div className="p-5 mx-auto mt-10 border-2 shadow-md ">
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -90,7 +90,7 @@ const ProductList = () => {
                 <TableCell component="th" scope="row">
                   {row?.color?.map((color, index) => (
                     <div
-                      className="capitalize w-6 aspect-square rounded-full"
+                      className="w-6 capitalize rounded-full aspect-square"
                       // style={{ backgroundColor: color }}
                     >
                       {color}
@@ -111,9 +111,9 @@ const ProductList = () => {
                 </TableCell>
                 <TableCell align="right">
                   <img
-                    src={row?.images[1]?.url}
+                    src={row?.images[0]?.url}
                     alt={row?.name}
-                    className="w-32 aspect-video object-contain "
+                    className="object-contain w-32 aspect-video "
                   />
                 </TableCell>
                 <TableCell>

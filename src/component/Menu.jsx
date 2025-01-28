@@ -34,10 +34,6 @@ const Menu = () => {
       name: "Order",
       subMenu: [
         {
-          name: "Create Order",
-          link: "/order/create",
-        },
-        {
           name: "Order List",
           link: "/order/list",
         },
@@ -56,11 +52,12 @@ const Menu = () => {
 
   const [selectedMenu, SetSelectedMenu] = useState(null);
 
+
   return (
     <div>
       <h1 className="text-xl font-bold">Ecommerce Dashboard</h1>
       <hr className="h-2 bg-black" />
-      <Stack className="mt-8 gap-4">
+      <Stack className="gap-4 mt-8">
         {menuData.map((item, index) => {
           return (
             <div key={item?.name}>
@@ -73,7 +70,7 @@ const Menu = () => {
                     )
                   }
                 >
-                  <h2 className="w-full min-w-20 text-lg">{item?.name}</h2>
+                  <h2 className="w-full text-lg min-w-20">{item?.name}</h2>
                   <span>
                     <FaAngleDown size={20} />
                   </span>
@@ -81,10 +78,10 @@ const Menu = () => {
               </div>
               <>
                 {selectedMenu === item?.name && (
-                  <div className="pl-6 pt-2">
+                  <div className="pt-2 pl-6">
                     {item?.subMenu?.map((subItem, index) => {
                       return (
-                        <ul className=" list-disc" key={subItem?.name}>
+                        <ul className="list-disc " key={subItem?.name}>
                           <li>
                             <Link to={subItem?.link}>{subItem?.name}</Link>
                           </li>

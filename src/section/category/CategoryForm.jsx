@@ -111,11 +111,11 @@ const CategoryForm = () => {
 
   return (
     <div>
-      <h1 className=" text-2xl font-semibold text-center p-4">
+      <h1 className="p-4 text-2xl font-semibold text-center ">
         {id ? "Edit Category" : "Create Category"}
       </h1>
       <hr />
-      <form className=" p-8" onSubmit={id ? handleEditSubmit : handleSubmit}>
+      <form className="p-8 " onSubmit={id ? handleEditSubmit : handleSubmit}>
         <Stack
           width={"50%"}
           sx={{
@@ -141,7 +141,7 @@ const CategoryForm = () => {
           {preview && <img src={preview} alt="preview" width={200} />}
           <button
             type="submit"
-            className="bg-black text-white p-3"
+            className="p-3 text-white bg-black"
             disabled={isLoading}
           >
             {isLoading ? "Loading..." : id ? "Update" : "Submit"}

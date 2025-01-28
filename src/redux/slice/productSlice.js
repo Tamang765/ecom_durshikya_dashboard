@@ -70,6 +70,7 @@ export const updateProduct = createAsyncThunk(
   async ({ id, formData }) => {
     try {
       await axios.patch(`product/${id}`, formData);
+      toast.success("Product updated successfully");
       return id;
     } catch (error) {
       toast.error(error.message || "Something went wrong");
